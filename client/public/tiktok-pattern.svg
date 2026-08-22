@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000">
+  <defs>
+    <filter id="glow-pink" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="glow-cyan" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Pink/Red triangles (#FE2C55) - various sizes and rotations -->
+  <!-- Large pink triangles -->
+  <polygon points="80,30 60,70 100,70" fill="#FE2C55" opacity="0.9" transform="rotate(15, 80, 50)"/>
+  <polygon points="320,80 295,125 345,125" fill="#FE2C55" opacity="0.85" transform="rotate(-20, 320, 100)"/>
+  <polygon points="650,45 625,90 675,90" fill="#FE2C55" opacity="0.9" transform="rotate(35, 650, 65)"/>
+  <polygon points="900,120 875,165 925,165" fill="#FE2C55" opacity="0.8" transform="rotate(-10, 900, 140)"/>
+  <polygon points="150,250 125,295 175,295" fill="#FE2C55" opacity="0.85" transform="rotate(45, 150, 270)"/>
+  <polygon points="500,200 475,245 525,245" fill="#FE2C55" opacity="0.9" transform="rotate(-30, 500, 220)"/>
+  <polygon points="780,280 755,325 805,325" fill="#FE2C55" opacity="0.8" transform="rotate(25, 780, 300)"/>
+  <polygon points="50,450 25,495 75,495" fill="#FE2C55" opacity="0.9" transform="rotate(-45, 50, 470)"/>
+  <polygon points="350,400 325,445 375,445" fill="#FE2C55" opacity="0.85" transform="rotate(10, 350, 420)"/>
+  <polygon points="620,480 595,525 645,525" fill="#FE2C55" opacity="0.9" transform="rotate(-25, 620, 500)"/>
+  <polygon points="950,430 925,475 975,475" fill="#FE2C55" opacity="0.8" transform="rotate(40, 950, 450)"/>
+  <polygon points="200,620 175,665 225,665" fill="#FE2C55" opacity="0.9" transform="rotate(-15, 200, 640)"/>
+  <polygon points="480,680 455,725 505,725" fill="#FE2C55" opacity="0.85" transform="rotate(30, 480, 700)"/>
+  <polygon points="730,600 705,645 755,645" fill="#FE2C55" opacity="0.9" transform="rotate(-40, 730, 620)"/>
+  <polygon points="100,800 75,845 125,845" fill="#FE2C55" opacity="0.8" transform="rotate(20, 100, 820)"/>
+  <polygon points="380,850 355,895 405,895" fill="#FE2C55" opacity="0.9" transform="rotate(-35, 380, 870)"/>
+  <polygon points="680,780 655,825 705,825" fill="#FE2C55" opacity="0.85" transform="rotate(5, 680, 800)"/>
+  <polygon points="920,860 895,905 945,905" fill="#FE2C55" opacity="0.9" transform="rotate(-50, 920, 880)"/>
+
+  <!-- Medium pink triangles -->
+  <polygon points="180,120 165,148 195,148" fill="#FE2C55" opacity="0.7" transform="rotate(60, 180, 134)"/>
+  <polygon points="440,150 425,178 455,178" fill="#FE2C55" opacity="0.75" transform="rotate(-55, 440, 164)"/>
+  <polygon points="820,200 805,228 835,228" fill="#FE2C55" opacity="0.7" transform="rotate(70, 820, 214)"/>
+  <polygon points="280,380 265,408 295,408" fill="#FE2C55" opacity="0.75" transform="rotate(-65, 280, 394)"/>
+  <polygon points="560,350 545,378 575,378" fill="#FE2C55" opacity="0.7" transform="rotate(50, 560, 364)"/>
+  <polygon points="870,520 855,548 885,548" fill="#FE2C55" opacity="0.75" transform="rotate(-35, 870, 534)"/>
+  <polygon points="30,680 15,708 45,708" fill="#FE2C55" opacity="0.7" transform="rotate(45, 30, 694)"/>
+  <polygon points="560,750 545,778 575,778" fill="#FE2C55" opacity="0.75" transform="rotate(-20, 560, 764)"/>
+  <polygon points="820,720 805,748 835,748" fill="#FE2C55" opacity="0.7" transform="rotate(55, 820, 734)"/>
+
+  <!-- Small pink triangles -->
+  <polygon points="250,50 242,66 258,66" fill="#FE2C55" opacity="0.6" transform="rotate(25, 250, 58)"/>
+  <polygon points="750,150 742,166 758,166" fill="#FE2C55" opacity="0.55" transform="rotate(-40, 750, 158)"/>
+  <polygon points="50,320 42,336 58,336" fill="#FE2C55" opacity="0.6" transform="rotate(80, 50, 328)"/>
+  <polygon points="450,520 442,536 458,536" fill="#FE2C55" opacity="0.55" transform="rotate(-75, 450, 528)"/>
+  <polygon points="950,620 942,636 958,636" fill="#FE2C55" opacity="0.6" transform="rotate(30, 950, 628)"/>
+  <polygon points="300,920 292,936 308,936" fill="#FE2C55" opacity="0.55" transform="rotate(-60, 300, 928)"/>
+  <polygon points="770,950 762,966 778,966" fill="#FE2C55" opacity="0.6" transform="rotate(15, 770, 958)"/>
+
+  <!-- Cyan/Teal triangles (#25F4EE) - various sizes and rotations -->
+  <!-- Large cyan triangles -->
+  <polygon points="200,60 175,105 225,105" fill="#25F4EE" opacity="0.9" transform="rotate(-25, 200, 80)"/>
+  <polygon points="550,100 525,145 575,145" fill="#25F4EE" opacity="0.85" transform="rotate(40, 550, 120)"/>
+  <polygon points="830,50 805,95 855,95" fill="#25F4EE" opacity="0.9" transform="rotate(-15, 830, 70)"/>
+  <polygon points="50,180 25,225 75,225" fill="#25F4EE" opacity="0.8" transform="rotate(55, 50, 200)"/>
+  <polygon points="420,280 395,325 445,325" fill="#25F4EE" opacity="0.9" transform="rotate(-45, 420, 300)"/>
+  <polygon points="700,180 675,225 725,225" fill="#25F4EE" opacity="0.85" transform="rotate(20, 700, 200)"/>
+  <polygon points="950,300 925,345 975,345" fill="#25F4EE" opacity="0.9" transform="rotate(-35, 950, 320)"/>
+  <polygon points="180,480 155,525 205,525" fill="#25F4EE" opacity="0.8" transform="rotate(30, 180, 500)"/>
+  <polygon points="530,430 505,475 555,475" fill="#25F4EE" opacity="0.9" transform="rotate(-50, 530, 450)"/>
+  <polygon points="800,400 775,445 825,445" fill="#25F4EE" opacity="0.85" transform="rotate(15, 800, 420)"/>
+  <polygon points="100,600 75,645 125,645" fill="#25F4EE" opacity="0.9" transform="rotate(-20, 100, 620)"/>
+  <polygon points="350,570 325,615 375,615" fill="#25F4EE" opacity="0.8" transform="rotate(60, 350, 590)"/>
+  <polygon points="680,660 655,705 705,705" fill="#25F4EE" opacity="0.9" transform="rotate(-40, 680, 680)"/>
+  <polygon points="920,580 895,625 945,625" fill="#25F4EE" opacity="0.85" transform="rotate(35, 920, 600)"/>
+  <polygon points="250,780 225,825 275,825" fill="#25F4EE" opacity="0.9" transform="rotate(-10, 250, 800)"/>
+  <polygon points="550,820 525,865 575,865" fill="#25F4EE" opacity="0.8" transform="rotate(50, 550, 840)"/>
+  <polygon points="800,890 775,935 825,935" fill="#25F4EE" opacity="0.9" transform="rotate(-30, 800, 910)"/>
+  <polygon points="50,920 25,965 75,965" fill="#25F4EE" opacity="0.85" transform="rotate(25, 50, 940)"/>
+
+  <!-- Medium cyan triangles -->
+  <polygon points="380,50 365,78 395,78" fill="#25F4EE" opacity="0.7" transform="rotate(-70, 380, 64)"/>
+  <polygon points="680,120 665,148 695,148" fill="#25F4EE" opacity="0.75" transform="rotate(45, 680, 134)"/>
+  <polygon points="100,380 85,408 115,408" fill="#25F4EE" opacity="0.7" transform="rotate(-55, 100, 394)"/>
+  <polygon points="450,360 435,388 465,388" fill="#25F4EE" opacity="0.75" transform="rotate(65, 450, 374)"/>
+  <polygon points="720,480 705,508 735,508" fill="#25F4EE" opacity="0.7" transform="rotate(-30, 720, 494)"/>
+  <polygon points="250,550 235,578 265,578" fill="#25F4EE" opacity="0.75" transform="rotate(40, 250, 564)"/>
+  <polygon points="870,750 855,778 885,778" fill="#25F4EE" opacity="0.7" transform="rotate(-45, 870, 764)"/>
+  <polygon points="480,900 465,928 495,928" fill="#25F4EE" opacity="0.75" transform="rotate(55, 480, 914)"/>
+
+  <!-- Small cyan triangles -->
+  <polygon points="130,90 122,106 138,106" fill="#25F4EE" opacity="0.6" transform="rotate(35, 130, 98)"/>
+  <polygon points="600,250 592,266 608,266" fill="#25F4EE" opacity="0.55" transform="rotate(-50, 600, 258)"/>
+  <polygon points="350,480 342,496 358,496" fill="#25F4EE" opacity="0.6" transform="rotate(70, 350, 488)"/>
+  <polygon points="850,600 842,616 858,616" fill="#25F4EE" opacity="0.55" transform="rotate(-25, 850, 608)"/>
+  <polygon points="150,750 142,766 158,766" fill="#25F4EE" opacity="0.6" transform="rotate(45, 150, 758)"/>
+  <polygon points="650,870 642,886 658,886" fill="#25F4EE" opacity="0.55" transform="rotate(-60, 650, 878)"/>
+  <polygon points="950,950 942,966 958,966" fill="#25F4EE" opacity="0.6" transform="rotate(20, 950, 958)"/>
+
+  <!-- White/light accent triangles for depth -->
+  <polygon points="300,170 290,190 310,190" fill="#FFFFFF" opacity="0.3" transform="rotate(30, 300, 180)"/>
+  <polygon points="750,350 740,370 760,370" fill="#FFFFFF" opacity="0.25" transform="rotate(-40, 750, 360)"/>
+  <polygon points="100,530 90,550 110,550" fill="#FFFFFF" opacity="0.3" transform="rotate(55, 100, 540)"/>
+  <polygon points="600,600 590,620 610,620" fill="#FFFFFF" opacity="0.25" transform="rotate(-20, 600, 610)"/>
+  <polygon points="400,750 390,770 410,770" fill="#FFFFFF" opacity="0.3" transform="rotate(65, 400, 760)"/>
+  <polygon points="850,850 840,870 860,870" fill="#FFFFFF" opacity="0.25" transform="rotate(-50, 850, 860)"/>
+  <polygon points="500,50 490,70 510,70" fill="#FFFFFF" opacity="0.2" transform="rotate(40, 500, 60)"/>
+  <polygon points="200,400 190,420 210,420" fill="#FFFFFF" opacity="0.2" transform="rotate(-35, 200, 410)"/>
+  <polygon points="700,500 690,520 710,520" fill="#FFFFFF" opacity="0.25" transform="rotate(75, 700, 510)"/>
+  <polygon points="950,200 940,220 960,220" fill="#FFFFFF" opacity="0.2" transform="rotate(-15, 950, 210)"/>
+
+  <!-- Tiny scattered line fragments for confetti feel -->
+  <line x1="160" y1="160" x2="175" y2="170" stroke="#FE2C55" stroke-width="2" opacity="0.5"/>
+  <line x1="470" y1="260" x2="485" y2="250" stroke="#25F4EE" stroke-width="2" opacity="0.5"/>
+  <line x1="780" y1="340" x2="790" y2="355" stroke="#FE2C55" stroke-width="2" opacity="0.4"/>
+  <line x1="330" y1="600" x2="345" y2="590" stroke="#25F4EE" stroke-width="2" opacity="0.5"/>
+  <line x1="620" y1="730" x2="635" y2="740" stroke="#FE2C55" stroke-width="2" opacity="0.4"/>
+  <line x1="900" y1="680" x2="910" y2="695" stroke="#25F4EE" stroke-width="2" opacity="0.5"/>
+  <line x1="80" y1="880" x2="95" y2="870" stroke="#FE2C55" stroke-width="2" opacity="0.4"/>
+  <line x1="530" y1="950" x2="545" y2="960" stroke="#25F4EE" stroke-width="2" opacity="0.5"/>
+  <line x1="260" y1="500" x2="270" y2="515" stroke="#FFFFFF" stroke-width="1.5" opacity="0.2"/>
+  <line x1="720" y1="50" x2="735" y2="60" stroke="#FFFFFF" stroke-width="1.5" opacity="0.2"/>
+</svg>

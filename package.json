@@ -1,0 +1,21 @@
+{
+  "name": "aventuramall-monorepo",
+  "private": true,
+  "scripts": {
+    "dev:client": "pnpm --filter @aventuramall/client dev",
+    "dev:server": "pnpm --filter @aventuramall/server dev",
+    "dev": "pnpm -r --parallel run dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/engines",
+      "esbuild",
+      "msw",
+      "prisma",
+      "sharp",
+      "unrs-resolver"
+    ]
+  }
+}

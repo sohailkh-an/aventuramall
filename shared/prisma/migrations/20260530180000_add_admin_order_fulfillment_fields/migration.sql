@@ -1,0 +1,10 @@
+ALTER TYPE "OrderStatus" ADD VALUE IF NOT EXISTS 'CONFIRMED';
+ALTER TYPE "OrderStatus" ADD VALUE IF NOT EXISTS 'PICKED_UP';
+ALTER TYPE "OrderStatus" ADD VALUE IF NOT EXISTS 'ON_THE_WAY';
+
+CREATE TYPE "PaymentStatus" AS ENUM ('PAID', 'UNPAID');
+
+ALTER TABLE "orders" ADD COLUMN "paymentStatus" "PaymentStatus" NOT NULL DEFAULT 'UNPAID';
+ALTER TABLE "orders" ADD COLUMN "trackingCode" TEXT;
+ALTER TABLE "orders" ADD COLUMN "logisticsCompany" TEXT;
+ALTER TABLE "orders" ADD COLUMN "logisticsNotes" TEXT;

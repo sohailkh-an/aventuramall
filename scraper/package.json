@@ -1,0 +1,22 @@
+{
+  "name": "apexmall-scraper",
+  "version": "3.0.0",
+  "type": "module",
+  "scripts": {
+    "scrape": "node scraper.js",
+    "seed": "node seed.js",
+    "seed:file": "node seed.js",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.14.0",
+    "axios": "^1.7.2",
+    "cheerio": "^1.0.0",
+    "csv-writer": "^1.6.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "prisma": "^5.14.0"
+  }
+}
