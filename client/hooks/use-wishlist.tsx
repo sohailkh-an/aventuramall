@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { Product } from "@tiktokshop/shared";
-import { toast } from "sonner";
-import { apiClient } from "@/lib/api";
-import { useSession } from "@/lib/auth-client";
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { Product } from '@aventuramall/shared';
+import { toast } from 'sonner';
+import { apiClient } from '@/lib/api';
+import { useSession } from '@/lib/auth-client';
 
 interface WishlistContextType {
   wishlistItems: Product[];
@@ -23,20 +23,20 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
   const isAuthenticated = Boolean(session?.user);
 
   const loadSavedWishlistItems = (): Product[] => {
-    if (typeof window === "undefined") return [];
-    const savedWishlist = localStorage.getItem("wishlist-items");
+    if (typeof window === 'undefined') return [];
+    const savedWishlist = localStorage.getItem('wishlist-items');
     if (!savedWishlist) return [];
 
     try {
       return JSON.parse(savedWishlist);
     } catch (error) {
-      console.error("Failed to parse wishlist items from localStorage", error);
+      console.error('Failed to parse wishlist items from localStorage', error);
       return [];
     }
   };
 
   const fetchRemoteWishlistItems = async (): Promise<Product[]> => {
-    const res: any = await apiClient.get("/api/wishlist");
+    const res: any = await apiClient.get('/api/wishlist');
     return res.data.map((item: any) => item.product);
   };
 
@@ -50,7 +50,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
     }
 
     for (const item of missingItems) {
-      await apiClient.post("/api/wishlist", { productId: item.id });
+      await apiClient.post('/api/wishlist', { productId: item.id });
     }
 
     return fetchRemoteWishlistItems();
@@ -70,7 +70,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
           if (error.status === 401 || error.status === 403) {
             setWishlistItems(savedWishlist);
           } else {
-            console.error("Failed to load wishlist items", error);
+            console.error('Failed to load wishlist items', error);
             setWishlistItems(savedWishlist);
           }
         }
@@ -85,15 +85,15 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
   }, [sessionPending, isAuthenticated]);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === 'undefined') return;
     if (isInitialized && !isAuthenticated) {
-      localStorage.setItem("wishlist-items", JSON.stringify(wishlistItems));
+      localStorage.setItem('wishlist-items', JSON.stringify(wishlistItems));
     }
   }, [wishlistItems, isInitialized, isAuthenticated]);
 
   const toggleWishlist = async (product: Product) => {
     const exists = wishlistItems.some((item) => item.id === product.id);
-    
+
     // Optimistic UI update
     setWishlistItems((prev) => {
       if (exists) {
@@ -117,7 +117,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
       toast.success(`${product.name} added to wishlist`);
       if (isAuthenticated) {
         try {
-          await apiClient.post("/api/wishlist", { productId: product.id });
+          await apiClient.post('/api/wishlist', { productId: product.id });
         } catch (error) {
           setWishlistItems((prev) => prev.filter((item) => item.id !== product.id)); // revert
           toast.error(`Failed to add ${product.name}`);
@@ -131,14 +131,14 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
     if (!product) return;
 
     setWishlistItems((prev) => prev.filter((item) => item.id !== productId));
-    toast.info("Product removed from wishlist");
+    toast.info('Product removed from wishlist');
 
     if (isAuthenticated) {
       try {
         await apiClient.delete(`/api/wishlist/${productId}`);
       } catch (error) {
         setWishlistItems((prev) => [...prev, product]);
-        toast.error("Failed to remove product");
+        toast.error('Failed to remove product');
       }
     }
   };
@@ -146,7 +146,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
   const clearWishlist = async () => {
     const prev = [...wishlistItems];
     setWishlistItems([]);
-    toast.info("Wishlist cleared");
+    toast.info('Wishlist cleared');
 
     if (isAuthenticated) {
       try {
@@ -155,7 +155,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
         }
       } catch (error) {
         setWishlistItems(prev);
-        toast.error("Failed to clear wishlist");
+        toast.error('Failed to clear wishlist');
       }
     }
   };
@@ -182,7 +182,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
 export function useWishlist() {
   const context = useContext(WishlistContext);
   if (context === undefined) {
-    throw new Error("useWishlist must be used within a WishlistProvider");
+    throw new Error('useWishlist must be used within a WishlistProvider');
   }
   return context;
 }

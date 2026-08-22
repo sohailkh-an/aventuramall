@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "@/lib/api";
-import { User } from "@tiktokshop/shared";
+import { User } from "@aventuramall/shared";
 
 export function useAdminAuth() {
   const { data, isLoading, error, refetch } = useQuery({

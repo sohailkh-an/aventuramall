@@ -14,8 +14,8 @@ export default fp(async function corsPlugin(fastify: FastifyInstance) {
       const allowedOrigins = [
         "http://localhost:3000",
         "http://localhost:3001",
-        "https://tiktokshopstores.com",
-        "https://admin.tiktokshopstores.com",
+        "https://aventuramallstores.com",
+        "https://admin.aventuramallstores.com",
         "https://www.ttshopstores.com",
         "https://ttshopstores.com",
         "https://tiktakshopstore.com",

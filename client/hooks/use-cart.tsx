@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { Product } from "@tiktokshop/shared";
-import { toast } from "sonner";
-import { useSession } from "@/lib/auth-client";
-import { apiClient } from "@/lib/api";
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { Product } from '@aventuramall/shared';
+import { toast } from 'sonner';
+import { useSession } from '@/lib/auth-client';
+import { apiClient } from '@/lib/api';
 
 export interface CartItem {
   id: string;
@@ -45,20 +45,20 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const isAuthenticated = Boolean(session?.user);
 
   const loadCartFromLocalStorage = (): CartItem[] => {
-    if (typeof window === "undefined") return [];
-    const savedCart = localStorage.getItem("cart-items");
+    if (typeof window === 'undefined') return [];
+    const savedCart = localStorage.getItem('cart-items');
     if (!savedCart) return [];
 
     try {
       return JSON.parse(savedCart) as CartItem[];
     } catch (error) {
-      console.error("Failed to parse cart items from localStorage", error);
+      console.error('Failed to parse cart items from localStorage', error);
       return [];
     }
   };
 
   const fetchRemoteCartItems = async (): Promise<CartItem[]> => {
-    const response = await apiClient.get<{ data: CartApiItem[] }>("/api/cart");
+    const response = await apiClient.get<{ data: CartApiItem[] }>('/api/cart');
     return response.data.map((item) => ({ ...item.product, quantity: item.quantity }));
   };
 
@@ -68,13 +68,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
 
     for (const item of localItems) {
-      await apiClient.post("/api/cart", {
+      await apiClient.post('/api/cart', {
         productId: item.id,
         quantity: item.quantity,
       });
     }
 
-    localStorage.removeItem("cart-items");
+    localStorage.removeItem('cart-items');
     return fetchRemoteCartItems();
   };
 
@@ -89,7 +89,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           const mergedCart = await synchronizeCartItems(savedCart);
           setCartItems(mergedCart);
         } catch (error) {
-          console.error("Failed to load cart items", error);
+          console.error('Failed to load cart items', error);
           setCartItems(savedCart);
         }
       } else {
@@ -103,15 +103,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [isAuthenticated, sessionPending]);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === 'undefined') return;
     if (isInitialized && !isAuthenticated) {
-      localStorage.setItem("cart-items", JSON.stringify(cartItems));
+      localStorage.setItem('cart-items', JSON.stringify(cartItems));
     }
   }, [cartItems, isInitialized, isAuthenticated]);
 
   const addToCart = async (product: Product, quantity: number = 1) => {
     if (!isAuthenticated) {
-      toast.error("Please login to add items to cart.");
+      toast.error('Please login to add items to cart.');
       return;
     }
 
@@ -121,9 +121,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (existingItem) {
         toast.success(`Updated ${product.name} quantity in cart`);
         return prev.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
+          item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
         );
       }
       toast.success(`${product.name} added to cart`);
@@ -131,7 +129,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     });
 
     try {
-      await apiClient.post("/api/cart", { productId: product.id, quantity });
+      await apiClient.post('/api/cart', { productId: product.id, quantity });
     } catch (error) {
       setCartItems(previousCart);
       toast.error(`Failed to add ${product.name} to cart`);
@@ -141,7 +139,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const removeFromCart = async (productId: string) => {
     const previousCart = [...cartItems];
     setCartItems((prev) => prev.filter((item) => item.id !== productId));
-    toast.info("Product removed from cart");
+    toast.info('Product removed from cart');
 
     if (!isAuthenticated) {
       return;
@@ -151,7 +149,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       await apiClient.delete(`/api/cart/${productId}`);
     } catch (error) {
       setCartItems(previousCart);
-      toast.error("Failed to remove product from cart");
+      toast.error('Failed to remove product from cart');
     }
   };
 
@@ -163,9 +161,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     const previousCart = [...cartItems];
     setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === productId ? { ...item, quantity } : item
-      )
+      prev.map((item) => (item.id === productId ? { ...item, quantity } : item))
     );
 
     if (!isAuthenticated) {
@@ -176,24 +172,24 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       await apiClient.patch(`/api/cart/${productId}`, { quantity });
     } catch (error) {
       setCartItems(previousCart);
-      toast.error("Failed to update cart quantity");
+      toast.error('Failed to update cart quantity');
     }
   };
 
   const clearCart = async () => {
     const previousCart = [...cartItems];
     setCartItems([]);
-    toast.info("Cart cleared");
+    toast.info('Cart cleared');
 
     if (!isAuthenticated) {
       return;
     }
 
     try {
-      await apiClient.delete("/api/cart");
+      await apiClient.delete('/api/cart');
     } catch (error) {
       setCartItems(previousCart);
-      toast.error("Failed to clear cart");
+      toast.error('Failed to clear cart');
     }
   };
 
@@ -229,7 +225,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 export function useCart() {
   const context = useContext(CartContext);
   if (context === undefined) {
-    throw new Error("useCart must be used within a CartProvider");
+    throw new Error('useCart must be used within a CartProvider');
   }
   return context;
 }

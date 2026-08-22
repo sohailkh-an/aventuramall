@@ -3,18 +3,18 @@ import assert from 'node:assert/strict';
 import { getAdminSubdomainRewritePath } from './admin-subdomain-routing';
 
 assert.equal(
-  getAdminSubdomainRewritePath('admin.tiktokshopstores.com', '/'),
+  getAdminSubdomainRewritePath('admin.aventuramallstores.com', '/'),
   '/admin/login'
 );
 
 assert.equal(
-  getAdminSubdomainRewritePath('admin.tiktokshopstores.com', '/dashboard'),
+  getAdminSubdomainRewritePath('admin.aventuramallstores.com', '/dashboard'),
   '/admin/dashboard'
 );
 
 assert.equal(
-  getAdminSubdomainRewritePath('admin.tiktokshopstores.com', '/admin/dashboard'),
+  getAdminSubdomainRewritePath('admin.aventuramallstores.com', '/admin/dashboard'),
   '/admin/dashboard'
 );
 
-assert.equal(getAdminSubdomainRewritePath('tiktokshopstores.com', '/dashboard'), null);
+assert.equal(getAdminSubdomainRewritePath('aventuramallstores.com', '/dashboard'), null);

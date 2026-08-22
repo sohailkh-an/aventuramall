@@ -1,4 +1,4 @@
-const DEFAULT_ADMIN_HOSTNAME = 'admin.tiktokshopstores.com';
+const DEFAULT_ADMIN_HOSTNAME = 'admin.aventuramallstores.com';
 
 function normalizeHostname(host: string | null) {
   return host?.split(':')[0]?.toLowerCase() ?? '';

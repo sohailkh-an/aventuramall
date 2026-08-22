@@ -44,7 +44,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog';
-import { User } from '@tiktokshop/shared';
+import { User } from '@aventuramall/shared';
 import { AdminCustomer, EditCustomerDialog } from '@/components/admin/EditCustomerDialog';
 
 interface ApiClientError extends Error {
@@ -83,7 +83,6 @@ export default function CustomerListPage() {
   });
 
   const customers = customersData?.data || [];
-
 
   // Mutations
   const rechargeMutation = useMutation({
@@ -179,7 +178,6 @@ export default function CustomerListPage() {
       c.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (c as any).phone?.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
 
   const handleRecharge = () => {
     if (!rechargeUser || !rechargeAmount) return;
@@ -295,7 +293,9 @@ export default function CustomerListPage() {
                     </div>
                   </TableCell>
                   <TableCell className="text-slate-400">{customer.email}</TableCell>
-                  <TableCell className="text-slate-400">{(customer as any).phone || 'N/A'}</TableCell>
+                  <TableCell className="text-slate-400">
+                    {(customer as any).phone || 'N/A'}
+                  </TableCell>
                   <TableCell>
                     <Badge
                       variant="outline"
@@ -373,7 +373,11 @@ export default function CustomerListPage() {
         </Table>
       </div>
 
-      <EditCustomerDialog key={customerToEdit?.id ?? 'none'} customer={customerToEdit} onClose={() => setCustomerToEdit(null)} />
+      <EditCustomerDialog
+        key={customerToEdit?.id ?? 'none'}
+        customer={customerToEdit}
+        onClose={() => setCustomerToEdit(null)}
+      />
 
       {/* Recharge Dialog */}
       <Dialog open={!!rechargeUser} onOpenChange={() => setRechargeUser(null)}>
@@ -460,7 +464,8 @@ export default function CustomerListPage() {
                   Disable login
                 </Label>
                 <p className="text-xs text-slate-500">
-                  Creates customers as disabled so they cannot use regular login or admin impersonation.
+                  Creates customers as disabled so they cannot use regular login or admin
+                  impersonation.
                 </p>
               </div>
               <Switch
@@ -537,7 +542,8 @@ export default function CustomerListPage() {
           </DialogHeader>
           <div className="space-y-3 py-4 text-sm text-slate-400">
             <p>
-              This permanently deletes the customer account and related customer data. This action cannot be undone.
+              This permanently deletes the customer account and related customer data. This action
+              cannot be undone.
             </p>
             <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-4">
               <p className="font-semibold text-slate-100">{customerToDelete?.name}</p>

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Product } from '@tiktokshop/shared';
+import { Product } from '@aventuramall/shared';
 import { RefreshCw, ShoppingBag, Heart, Star } from 'lucide-react';
 import { useCompare } from '@/hooks/use-compare';
 import { useCart } from '@/hooks/use-cart';
@@ -31,7 +31,6 @@ export function ProductCard({ product }: ProductCardProps) {
     compareAtPriceNum > priceNum
       ? Math.round(((compareAtPriceNum - priceNum) / compareAtPriceNum) * 100)
       : 0;
-
 
   const handleCompare = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -143,7 +142,6 @@ export function ProductCard({ product }: ProductCardProps) {
                   {formatPrice(compareAtPriceNum)}
                 </span>
               )}
-
             </div>
             <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium group-hover:text-foreground transition-colors">
               Details →

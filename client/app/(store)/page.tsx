@@ -1,5 +1,5 @@
 import { apiClient } from '@/lib/api';
-import { Product, Category } from '@tiktokshop/shared';
+import { Product, Category } from '@aventuramall/shared';
 import { HomeHero } from '@/components/store/HomeHero';
 import { HomeCategories } from '@/components/store/HomeCategories';
 import { HomeBanners } from '@/components/store/HomeBanners';
@@ -143,4 +143,3 @@ export default async function StorePage() {
     </div>
   );
 }
-

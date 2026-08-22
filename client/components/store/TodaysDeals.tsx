@@ -1,4 +1,4 @@
-import { Product } from '@tiktokshop/shared';
+import { Product } from '@aventuramall/shared';
 import { ProductCard } from './product-card';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';

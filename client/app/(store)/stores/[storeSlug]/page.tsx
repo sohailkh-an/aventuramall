@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Category, Product } from '@tiktokshop/shared';
+import { Category, Product } from '@aventuramall/shared';
 import { ArrowLeft, Boxes, ChevronLeft, ChevronRight, Star, Store, Tag } from 'lucide-react';
 import { apiClient } from '@/lib/api';
 import { ProductCard } from '@/components/store/product-card';
@@ -74,7 +74,9 @@ export default async function StorePage({ params, searchParams }: StorePageProps
   const showPagination = storeData.meta.total > PRODUCTS_PER_PAGE;
   const pageHref = (page: number) => `/stores/${store.slug}?page=${page}`;
   const ratingPercent = (count: number) =>
-    store.ratingStats.reviewCount > 0 ? Math.round((count / store.ratingStats.reviewCount) * 100) : 0;
+    store.ratingStats.reviewCount > 0
+      ? Math.round((count / store.ratingStats.reviewCount) * 100)
+      : 0;
 
   return (
     <main className="min-h-screen bg-background">
@@ -94,7 +96,9 @@ export default async function StorePage({ params, searchParams }: StorePageProps
                 <Store className="h-10 w-10 sm:h-12 sm:w-12" />
               </div>
               <div>
-                <p className="text-sm font-medium uppercase tracking-normal text-brand">Storefront</p>
+                <p className="text-sm font-medium uppercase tracking-normal text-brand">
+                  Storefront
+                </p>
                 <h1 className="mt-1 text-3xl font-black leading-tight text-foreground sm:text-4xl">
                   {store.name}
                 </h1>
@@ -176,7 +180,9 @@ export default async function StorePage({ params, searchParams }: StorePageProps
                           style={{ width: `${percent}%` }}
                         />
                       </span>
-                      <span className="text-right text-xs font-bold text-muted-foreground">{count}</span>
+                      <span className="text-right text-xs font-bold text-muted-foreground">
+                        {count}
+                      </span>
                     </div>
                   );
                 })}
@@ -189,7 +195,9 @@ export default async function StorePage({ params, searchParams }: StorePageProps
       <section className="container mx-auto max-w-7xl px-4 py-8 sm:py-10">
         <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-sm font-medium uppercase tracking-normal text-brand">Available now</p>
+            <p className="text-sm font-medium uppercase tracking-normal text-brand">
+              Available now
+            </p>
             <h2 className="text-2xl font-bold text-foreground">Products from {store.name}</h2>
           </div>
           <p className="text-sm text-muted-foreground">
@@ -236,9 +244,7 @@ export default async function StorePage({ params, searchParams }: StorePageProps
               {Array.from({ length: totalPages }, (_, index) => index + 1)
                 .filter(
                   (page) =>
-                    page === 1 ||
-                    page === totalPages ||
-                    Math.abs(page - storeData.meta.page) <= 1
+                    page === 1 || page === totalPages || Math.abs(page - storeData.meta.page) <= 1
                 )
                 .map((page, index, pages) => {
                   const previousPage = pages[index - 1];

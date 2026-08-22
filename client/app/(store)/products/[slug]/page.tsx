@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { apiClient } from '@/lib/api';
-import { Product, Category } from '@tiktokshop/shared';
+import { Product, Category } from '@aventuramall/shared';
 import { ProductPageUI } from '@/components/store/product/ProductPageUI';
 
 export const revalidate = 60;
@@ -8,8 +8,6 @@ export const revalidate = 60;
 interface ProductWithCategory extends Product {
   category: Category;
 }
-
-
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;

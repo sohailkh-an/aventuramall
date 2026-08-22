@@ -10,7 +10,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-import { Product } from '@tiktokshop/shared';
+import { Product } from '@aventuramall/shared';
 import { ProductCard } from './product-card';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -19,23 +19,28 @@ import { ArrowRight, Sparkles } from 'lucide-react';
 
 const HERO_SLIDES = [
   {
-    image: 'https://apexmallstore.top/public/uploads/all/SKD7fE5FhtdAONyHp7bkREechQFr7lM7vPJXJ2pu.jpg',
+    image:
+      'https://apexmallstore.top/public/uploads/all/SKD7fE5FhtdAONyHp7bkREechQFr7lM7vPJXJ2pu.jpg',
     tagline: 'AUTUMN / WINTER MAISON EDIT',
     title: 'HAUTE COUTURE & TIMELESS LUXURY',
-    description: 'Explore the definitive curation of designer ready-to-wear, leather goods, and iconic accessories.',
+    description:
+      'Explore the definitive curation of designer ready-to-wear, leather goods, and iconic accessories.',
     cta: 'DISCOVER NOW',
     link: '/search?category=women-clothing-fashion',
   },
   {
-    image: 'https://apexmallstore.top/public/uploads/all/eGSZ3dbJIFxdDhmg2XKsYLrUPG06xZDu9ENtwkXz.jpg',
+    image:
+      'https://apexmallstore.top/public/uploads/all/eGSZ3dbJIFxdDhmg2XKsYLrUPG06xZDu9ENtwkXz.jpg',
     tagline: 'FINE JEWELRY & WATCHES',
     title: 'PRECISION MEETS ARTISTRY',
-    description: 'Masterfully crafted timepieces and high jewelry from prestigious Swiss and Parisian houses.',
+    description:
+      'Masterfully crafted timepieces and high jewelry from prestigious Swiss and Parisian houses.',
     cta: 'VIEW COLLECTION',
     link: '/search?category=jewelry-watches',
   },
   {
-    image: 'https://apexmallstore.top/public/uploads/all/F2zsxmNIJh0EksUfSd1r8lx8ETMdgnJtEZY6Q1lG.png',
+    image:
+      'https://apexmallstore.top/public/uploads/all/F2zsxmNIJh0EksUfSd1r8lx8ETMdgnJtEZY6Q1lG.png',
     tagline: 'NEW FLAGSHIPS',
     title: 'AVENTURA MALL MIAMI',
     description: 'South Florida’s premier luxury fashion and lifestyle epicenter.',

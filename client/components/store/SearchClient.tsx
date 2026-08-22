@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { Product, Category } from '@tiktokshop/shared';
+import { Product, Category } from '@aventuramall/shared';
 import { ProductCard } from '@/components/store/product-card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -17,13 +17,7 @@ import {
 } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Boxes, Filter, Search, SlidersHorizontal, Star, Store } from 'lucide-react';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { useCurrency } from '@/hooks/use-currency';
 
 interface ProductWithCategory extends Product {
@@ -75,7 +69,6 @@ export function SearchClient({
   const maxProductPrice =
     initialProducts.length > 0 ? Math.max(...initialProducts.map((p) => Number(p.price))) : 1000;
   const resetKey = `${searchQuery}:${initialCategory ?? ''}:${maxProductPrice}`;
-
 
   return (
     <SearchClientContent
@@ -295,7 +288,9 @@ function SearchClientContent({
         <div className="flex items-center gap-3 self-start md:self-auto">
           {/* Mobile Filter Trigger */}
           <Sheet>
-            <SheetTrigger render={<Button variant="outline" className="md:hidden flex items-center gap-2" />}>
+            <SheetTrigger
+              render={<Button variant="outline" className="md:hidden flex items-center gap-2" />}
+            >
               <Filter className="w-4 h-4" />
               Filters
             </SheetTrigger>
@@ -329,18 +324,14 @@ function SearchClientContent({
       <div className="flex flex-col md:flex-row gap-8">
         {/* Desktop Sidebar */}
         <aside className="hidden md:block w-[280px] shrink-0 space-y-6 sticky top-24 h-fit">
-          <div className="bg-background p-6 border-0 rounded-sm shadow-sm">
-            {filterContent}
-          </div>
+          <div className="bg-background p-6 border-0 rounded-sm shadow-sm">{filterContent}</div>
         </aside>
 
         <div className="flex-1">
           {initialStores.length > 0 && (
             <section className="mb-8 space-y-4">
               <div>
-                <p className="text-sm font-medium uppercase tracking-normal text-brand">
-                  Stores
-                </p>
+                <p className="text-sm font-medium uppercase tracking-normal text-brand">Stores</p>
                 <h2 className="text-xl font-bold text-foreground">Matching sellers</h2>
               </div>
 
@@ -400,7 +391,7 @@ function SearchClientContent({
                     variant="outline"
                     disabled={currentPage === 1}
                     onClick={() => {
-                      setCurrentPage(prev => Math.max(1, prev - 1));
+                      setCurrentPage((prev) => Math.max(1, prev - 1));
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
                   >
@@ -413,7 +404,7 @@ function SearchClientContent({
                     variant="outline"
                     disabled={currentPage === totalPages}
                     onClick={() => {
-                      setCurrentPage(prev => Math.min(totalPages, prev + 1));
+                      setCurrentPage((prev) => Math.min(totalPages, prev + 1));
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
                   >

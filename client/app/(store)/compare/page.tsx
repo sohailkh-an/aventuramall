@@ -5,7 +5,7 @@ import { useCompare } from "@/hooks/use-compare";
 import { useCart } from "@/hooks/use-cart";
 import { useSession } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import { Product } from "@tiktokshop/shared";
+import { Product } from "@aventuramall/shared";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { RefreshCw, X, ShoppingCart, Trash2, ArrowLeft } from "lucide-react";

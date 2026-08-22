@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Product, Category } from '@tiktokshop/shared';
+import { Product, Category } from '@aventuramall/shared';
 import { Button, buttonVariants } from '@/components/ui/button';
 import {
   Minus,
@@ -27,7 +27,6 @@ interface ProductWithCategory extends Product {
   category: Category;
   reviews?: ProductReview[];
 }
-
 
 interface ProductReview {
   id: string;

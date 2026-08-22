@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 async function seedAdmin() {
   console.log('🌱 Seeding Admin User...\n');
 
-  const adminEmail = process.env.ADMIN_EMAIL || 'admin@tiktokshop.com';
+  const adminEmail = process.env.ADMIN_EMAIL || 'admin@aventuramall.com';
   const adminPassword = process.env.ADMIN_PASSWORD || 'admin123456';
   const adminName = 'System Admin';
 

@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { Product } from "@tiktokshop/shared";
-import { toast } from "sonner";
-import { apiClient } from "@/lib/api";
-import { useSession } from "@/lib/auth-client";
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { Product } from '@aventuramall/shared';
+import { toast } from 'sonner';
+import { apiClient } from '@/lib/api';
+import { useSession } from '@/lib/auth-client';
 
 interface CompareContextType {
   compareItems: Product[];
@@ -27,14 +27,14 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
   const isAuthenticated = Boolean(session?.user);
 
   const loadSavedCompareItems = (): Product[] => {
-    if (typeof window === "undefined") return [];
-    const savedCompare = localStorage.getItem("compare-items");
+    if (typeof window === 'undefined') return [];
+    const savedCompare = localStorage.getItem('compare-items');
     if (!savedCompare) return [];
 
     try {
       return JSON.parse(savedCompare);
     } catch (error) {
-      console.error("Failed to parse compare items from localStorage", error);
+      console.error('Failed to parse compare items from localStorage', error);
       return [];
     }
   };
@@ -46,7 +46,7 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
       const savedCompare = loadSavedCompareItems();
 
       const fetchRemoteCompareItems = async (): Promise<Product[]> => {
-        const res = await apiClient.get<CompareApiResponse>("/api/compare");
+        const res = await apiClient.get<CompareApiResponse>('/api/compare');
         return res.data.map((item) => item.product);
       };
 
@@ -63,7 +63,7 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
         const itemsToSync = missingItems.slice(0, spaceLeft);
 
         for (const item of itemsToSync) {
-          await apiClient.post("/api/compare", { productId: item.id });
+          await apiClient.post('/api/compare', { productId: item.id });
         }
 
         return fetchRemoteCompareItems();
@@ -78,7 +78,7 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
           if (apiError.status === 401 || apiError.status === 403) {
             setCompareItems(savedCompare);
           } else {
-            console.error("Failed to load compare items", error);
+            console.error('Failed to load compare items', error);
             setCompareItems(savedCompare);
           }
         }
@@ -93,9 +93,9 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
   }, [sessionPending, isAuthenticated]);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === 'undefined') return;
     if (isInitialized && !isAuthenticated) {
-      localStorage.setItem("compare-items", JSON.stringify(compareItems));
+      localStorage.setItem('compare-items', JSON.stringify(compareItems));
     }
   }, [compareItems, isInitialized, isAuthenticated]);
 
@@ -105,7 +105,7 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
       return;
     }
     if (compareItems.length >= 5) {
-      toast.error("Only 5 products can be added at max");
+      toast.error('Only 5 products can be added at max');
       return;
     }
 
@@ -114,7 +114,7 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
 
     if (isAuthenticated) {
       try {
-        await apiClient.post("/api/compare", { productId: product.id });
+        await apiClient.post('/api/compare', { productId: product.id });
       } catch {
         setCompareItems((prev) => prev.filter((item) => item.id !== product.id));
         toast.error(`Failed to add ${product.name} to comparison`);
@@ -127,14 +127,14 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
     if (!product) return;
 
     setCompareItems((prev) => prev.filter((item) => item.id !== productId));
-    toast.info("Product removed from comparison");
+    toast.info('Product removed from comparison');
 
     if (isAuthenticated) {
       try {
         await apiClient.delete(`/api/compare/${productId}`);
       } catch {
         setCompareItems((prev) => [...prev, product]);
-        toast.error("Failed to remove product from comparison");
+        toast.error('Failed to remove product from comparison');
       }
     }
   };
@@ -142,7 +142,7 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
   const clearCompare = async () => {
     const prev = [...compareItems];
     setCompareItems([]);
-    toast.info("Comparison list cleared");
+    toast.info('Comparison list cleared');
 
     if (isAuthenticated) {
       try {
@@ -151,7 +151,7 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
         }
       } catch {
         setCompareItems(prev);
-        toast.error("Failed to clear comparison list");
+        toast.error('Failed to clear comparison list');
       }
     }
   };
@@ -178,7 +178,7 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
 export function useCompare() {
   const context = useContext(CompareContext);
   if (context === undefined) {
-    throw new Error("useCompare must be used within a CompareProvider");
+    throw new Error('useCompare must be used within a CompareProvider');
   }
   return context;
 }

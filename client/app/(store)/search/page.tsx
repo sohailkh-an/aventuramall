@@ -1,5 +1,5 @@
 import { apiClient } from '@/lib/api';
-import { Product, Category } from '@tiktokshop/shared';
+import { Product, Category } from '@aventuramall/shared';
 import { SearchClient } from '@/components/store/SearchClient';
 
 interface ProductWithCategory extends Product {
@@ -22,7 +22,7 @@ export const dynamic = 'force-dynamic';
 export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const params = await searchParams;
   const query = typeof params.q === 'string' ? params.q : '';
