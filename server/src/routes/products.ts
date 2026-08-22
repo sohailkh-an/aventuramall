@@ -56,6 +56,9 @@ export default async function productRoutes(fastify: FastifyInstance) {
     return reply.send({ data: product });
   });
 
+
+  
+
   // POST /api/products — Create product (admin only)
   fastify.post(
     '/api/products',

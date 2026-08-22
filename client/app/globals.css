@@ -80,7 +80,8 @@
    ============================================================ */
 :root,
 [data-theme="aventura-editorial"] {
-  --background: #ffffff;
+  /* --background: #ffffff; */
+  --background: #c5a880;
   --foreground: #0a0a0a;
   --card: #ffffff;
   --card-foreground: #0a0a0a;
