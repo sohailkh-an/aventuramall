@@ -16,12 +16,8 @@
     "isolatedModules": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "paths": {
-      "@server/*": ["./src/*"],
-      "@tiktokshop/shared": ["../shared/src/index.ts"]
-    }
+    "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/index.ts", "src/db/**/*.ts"],
-  "exclude": ["node_modules", "dist", "src/generated", "src/routes", "src/middleware", "src/plugins"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist", "src/generated"]
 }

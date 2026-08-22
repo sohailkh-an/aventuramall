@@ -1,5 +1,5 @@
 {
   "version": 2,
-  "buildCommand": "cd ../shared && npm run build && cd ../server && npx prisma generate",
+  "buildCommand": "cd ../shared && pnpm run build && cd ../server && npx prisma generate",
   "rewrites": [{ "source": "/(.*)", "destination": "/api" }]
 }

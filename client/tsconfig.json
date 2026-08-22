@@ -26,9 +26,6 @@
       "@/*": [
         "./*"
       ],
-      "@tiktokshop/shared": [
-        "../shared/src/index.ts"
-      ],
       "@aventuramall/shared": [
         "../shared/src/index.ts"
       ]
