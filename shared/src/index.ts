@@ -1,13 +1,29 @@
 import { z } from 'zod';
 
-export type { ProductModel as Product } from './generated/prisma/models/Product.js';
-export type { CategoryModel as Category } from './generated/prisma/models/Category.js';
-export type { UserModel as User } from './generated/prisma/models/User.js';
-export type { OrderModel as Order } from './generated/prisma/models/Order.js';
-export type { OrderItemModel as OrderItem } from './generated/prisma/models/OrderItem.js';
-export type { CartItemModel as CartItem } from './generated/prisma/models/CartItem.js';
-export type { AddressModel as Address } from './generated/prisma/models/Address.js';
-export type * from './generated/prisma/models.js';
+export type {
+  Product,
+  Category,
+  User,
+  Order,
+  OrderItem,
+  CartItem,
+  Address,
+  PayoutRequest,
+  Payout,
+  Session,
+  Account,
+  Verification,
+  WishlistItem,
+  CompareItem,
+  Seller,
+  SellerPackage,
+  SellerPackagePurchase,
+  SpreadPackage,
+  SellerSpreadPackagePurchase,
+  SellerFile,
+  SellerProduct,
+} from './generated/prisma/index.js';
+export type * from './generated/prisma/index.js';
 
 export const productQuerySchema = z.object({
   page: z.coerce.number().min(1).default(1),
