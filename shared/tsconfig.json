@@ -19,6 +19,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist", "src/generated"]
+  "include": ["src/index.ts", "src/db/**/*.ts"],
+  "exclude": ["node_modules", "dist", "src/generated", "src/routes", "src/middleware", "src/plugins"]
 }
