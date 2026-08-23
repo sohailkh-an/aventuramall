@@ -12,6 +12,8 @@ export default fp(async function corsPlugin(fastify: FastifyInstance) {
       }
 
       const allowedOrigins = [
+        "https://www.aventuramallstores.com",
+        "https://www.aventuramallstore.com",
         "http://localhost:3000",
         "http://localhost:3001",
         
