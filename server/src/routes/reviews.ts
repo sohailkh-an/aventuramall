@@ -4,23 +4,15 @@ import { requireAuth } from '../middleware/auth.js';
 import { createReviewSchema, reviewQuerySchema } from '@aventuramall/shared';
 
 export default async function reviewRoutes(fastify: FastifyInstance) {
-  // GET /api/reviews/:sellerProductId - Public route to fetch reviews
+  // GET /api/products/:productId/reviews - Public route to fetch reviews
   fastify.get('/api/products/:productId/reviews', async (request, reply) => {
     const { productId } = request.params as { productId: string };
     const { page, limit } = reviewQuerySchema.parse(request.query);
     const skip = (page - 1) * limit;
 
-    // Find the seller products for this global product
-    const sellerProducts = await prisma.sellerProduct.findMany({
-      where: { sourceProductId: productId },
-      select: { id: true }
-    });
-    
-    const sellerProductIds = sellerProducts.map(sp => sp.id);
-
     const [reviews, total] = await Promise.all([
       prisma.review.findMany({
-        where: { sellerProductId: { in: sellerProductIds } },
+        where: { productId },
         skip,
         take: limit,
         orderBy: { createdAt: 'desc' },
@@ -33,7 +25,7 @@ export default async function reviewRoutes(fastify: FastifyInstance) {
           },
         },
       }),
-      prisma.review.count({ where: { sellerProductId: { in: sellerProductIds } } }),
+      prisma.review.count({ where: { productId } }),
     ]);
 
     return reply.send({
@@ -50,22 +42,20 @@ export default async function reviewRoutes(fastify: FastifyInstance) {
       const user = (request as any).user;
       const body = createReviewSchema.parse(request.body);
 
-      // Find a seller product for this global product
-      // We'll just attach it to the first seller product we find for simplicity,
-      // or if they bought it, we could look up the order. But since anyone logged in can review:
-      const sellerProduct = await prisma.sellerProduct.findFirst({
-        where: { sourceProductId: body.productId },
+      // Verify the product exists
+      const product = await prisma.product.findUnique({
+        where: { id: body.productId },
       });
 
-      if (!sellerProduct) {
-        return reply.status(404).send({ error: 'This product is not currently sold by any seller.' });
+      if (!product) {
+        return reply.status(404).send({ error: 'Product not found' });
       }
 
       // Check if user already reviewed this product
       const existingReview = await prisma.review.findFirst({
         where: {
           userId: user.id,
-          sellerProductId: sellerProduct.id,
+          productId: body.productId,
         },
       });
 
@@ -78,7 +68,7 @@ export default async function reviewRoutes(fastify: FastifyInstance) {
         const newReview = await tx.review.create({
           data: {
             userId: user.id,
-            sellerProductId: sellerProduct.id,
+            productId: body.productId,
             rating: body.rating,
             comment: body.comment,
           },
@@ -94,13 +84,13 @@ export default async function reviewRoutes(fastify: FastifyInstance) {
 
         // Recalculate stats
         const stats = await tx.review.aggregate({
-          where: { sellerProductId: sellerProduct.id },
+          where: { productId: body.productId },
           _avg: { rating: true },
           _count: { id: true },
         });
 
-        await tx.sellerProduct.update({
-          where: { id: sellerProduct.id },
+        await tx.product.update({
+          where: { id: body.productId },
           data: {
             averageRating: stats._avg.rating || 0,
             reviewCount: stats._count.id || 0,
