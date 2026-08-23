@@ -43,17 +43,86 @@ export default async function productRoutes(fastify: FastifyInstance) {
   // GET /api/products/:slug — Get single product (public)
   fastify.get('/api/products/:slug', async (request, reply) => {
     const { slug } = request.params as { slug: string };
+    const { store } = request.query as { store?: string };
 
-    const product = await prisma.product.findUnique({
-      where: { slug },
-      include: { category: true },
-    });
+    let product: any = null;
+
+    if (store) {
+      const allSellers = await prisma.seller.findMany({ select: { id: true, shopName: true } });
+      const realSeller = allSellers.find((s) => {
+        const generatedSlug = s.shopName.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+        return generatedSlug === store;
+      });
+
+      if (realSeller) {
+        const sellerProduct = await prisma.sellerProduct.findFirst({
+          where: { slug, sellerId: realSeller.id },
+          include: { category: true, seller: true },
+        });
+
+        if (sellerProduct) {
+          product = {
+            ...sellerProduct,
+            soldBy: sellerProduct.seller?.shopName || 'Storehouse',
+          };
+        }
+      } else {
+        const storehouseProduct = await prisma.product.findFirst({
+          where: { slug, soldBy: { not: null } },
+          include: { category: true },
+        });
+        if (storehouseProduct && storehouseProduct.soldBy) {
+          const generatedSlug = storehouseProduct.soldBy.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+          if (generatedSlug === store) {
+            product = storehouseProduct;
+          }
+        }
+      }
+    }
+
+    if (!product) {
+      product = await prisma.product.findUnique({
+        where: { slug },
+        include: { category: true },
+      });
+    }
+
+    if (!product) {
+      const sellerProduct = await prisma.sellerProduct.findFirst({
+        where: { slug },
+        include: { category: true, seller: true },
+      });
+
+      if (sellerProduct) {
+        product = {
+          ...sellerProduct,
+          soldBy: sellerProduct.seller?.shopName || 'Storehouse',
+        };
+      }
+    }
 
     if (!product) {
       return reply.status(404).send({ error: 'Product not found' });
     }
 
-    return reply.send({ data: product });
+    let resolvedSoldBy = 'Storehouse';
+    if (product.soldBy && product.soldBy.trim().toLowerCase() !== 'storehouse') {
+      const registeredSeller = await prisma.seller.findFirst({
+        where: {
+          shopName: { equals: product.soldBy.trim(), mode: 'insensitive' },
+        },
+        select: { shopName: true },
+      });
+      
+      resolvedSoldBy = registeredSeller ? registeredSeller.shopName : product.soldBy.trim();
+    }
+
+    return reply.send({
+      data: {
+        ...product,
+        soldBy: resolvedSoldBy,
+      },
+    });
   });
 
 

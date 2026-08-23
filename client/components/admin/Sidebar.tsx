@@ -14,7 +14,7 @@ import {
   LifeBuoy,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import Image from 'next/image';
+import { Logo } from '@/components/ui/Logo';
 
 interface NavItem {
   name: string;
@@ -80,16 +80,14 @@ export function Sidebar({ isCollapsed = false }: { isCollapsed?: boolean }) {
           isCollapsed ? 'justify-center px-2' : 'px-5'
         )}
       >
-        <div className={cn('relative', isCollapsed ? 'h-10 w-10' : 'h-12 w-full')}>
-          <Image
-            src="/new-logo.jpeg"
-            alt="Galleria Mall Store Shop"
-            fill
-            sizes={isCollapsed ? '40px' : '240px'}
-            className={cn('object-contain', isCollapsed && 'object-left')}
-            priority
+        <Link href="/admin/dashboard" className="flex items-center justify-center w-full h-full py-2">
+          <Logo 
+            className={isCollapsed ? 'h-8 w-8' : 'h-8 w-auto'} 
+            containerClassName="!text-white"
+            textClassName="!text-white"
+            hideText={isCollapsed} 
           />
-        </div>
+        </Link>
       </div>
 
       <nav className={cn('flex-1 py-5', isCollapsed ? 'px-3 space-y-5' : 'px-4 space-y-6')}>

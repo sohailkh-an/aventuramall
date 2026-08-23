@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-const CATEGORIES = [
+export const CATEGORIES = [
   {
     name: "Womenswear",
     image: "https://apexmallstore.top/public/uploads/all/iHOjnygPdOMIDICsimZMAMoE0b3NXYGInqETeSBo.png",

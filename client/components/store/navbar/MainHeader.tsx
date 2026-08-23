@@ -26,7 +26,7 @@ export function MainHeader() {
   };
 
   return (
-    <div className="bg-background text-foreground border-b border-border/40 py-5 transition-colors duration-200">
+    <div className="bg-background text-foreground border-b border-border/40 py-5 group-[.is-scrolled]:py-2.5 transition-all duration-300 ease-in-out">
       <div className="container mx-auto px-4 flex items-center justify-between gap-6">
         {/* Left: Minimal Search */}
         <div className="hidden lg:flex items-center w-72">
@@ -43,8 +43,8 @@ export function MainHeader() {
 
         {/* Center: Luxury Aventura Mall Logo */}
         <div className="flex-1 lg:flex-none flex justify-start lg:justify-center">
-          <Link href="/" className="transition-opacity hover:opacity-85">
-            <Logo className="h-10 w-auto" />
+          <Link href="/" className="transition-opacity hover:opacity-85 flex items-center justify-center">
+            <Logo className="h-9 sm:h-10 group-[.is-scrolled]:h-7 group-[.is-scrolled]:sm:h-8 w-auto transition-all duration-300 ease-in-out" />
           </Link>
         </div>
 

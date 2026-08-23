@@ -138,7 +138,8 @@
   --popover: #ffffff;
   --popover-foreground: #1c1917;
 
-  --brand: #c5a880;
+  /* --brand: #c5a880; */
+  --brand: #E85C0D;
   --brand-foreground: #ffffff;
   --brand-accent: #a3845c;
   --dull: #f3efe8;

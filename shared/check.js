@@ -1,0 +1,1 @@
+import { PrismaClient } from '@prisma/client'; const prisma = new PrismaClient(); async function main() { const items = await prisma.product.findMany({ take: 3 }); console.dir(items.map(i => i.images), { depth: null }); } main().finally(() => prisma.$disconnect());

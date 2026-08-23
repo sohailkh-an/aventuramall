@@ -3,6 +3,7 @@ import { TopBar } from "./TopBar";
 import { MainHeader } from "./MainHeader";
 import { NavMenu } from "./NavMenu";
 import { apiClient } from "@/lib/api";
+import { NavbarScrollWrapper } from "./NavbarScrollWrapper";
 
 interface Category {
   id: string;
@@ -20,11 +21,11 @@ export async function Navbar() {
   }
 
   return (
-    <nav className="flex flex-col w-full sticky top-0 z-40 bg-background/95 backdrop-blur-md transition-colors duration-200">
+    <NavbarScrollWrapper>
       <TopBar />
       <MainHeader />
       <NavMenu categories={categories} />
-    </nav>
+    </NavbarScrollWrapper>
   );
 }
 

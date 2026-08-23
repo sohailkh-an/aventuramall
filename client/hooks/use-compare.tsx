@@ -26,13 +26,26 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
   const { data: session, isPending: sessionPending } = useSession();
   const isAuthenticated = Boolean(session?.user);
 
+  const sanitizeProduct = (product: any): Product => {
+    let images = product.images || [];
+    if (typeof images === 'string') {
+      try {
+        images = JSON.parse(images);
+      } catch {
+        images = [images];
+      }
+    }
+    return { ...product, images };
+  };
+
   const loadSavedCompareItems = (): Product[] => {
     if (typeof window === 'undefined') return [];
     const savedCompare = localStorage.getItem('compare-items');
     if (!savedCompare) return [];
 
     try {
-      return JSON.parse(savedCompare);
+      const parsed = JSON.parse(savedCompare);
+      return Array.isArray(parsed) ? parsed.map(sanitizeProduct) : [];
     } catch (error) {
       console.error('Failed to parse compare items from localStorage', error);
       return [];
@@ -47,7 +60,7 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
 
       const fetchRemoteCompareItems = async (): Promise<Product[]> => {
         const res = await apiClient.get<CompareApiResponse>('/api/compare');
-        return res.data.map((item) => item.product);
+        return res.data.map((item) => sanitizeProduct(item.product));
       };
 
       const synchronizeCompareItems = async (localItems: Product[]) => {

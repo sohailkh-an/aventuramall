@@ -101,7 +101,7 @@ export function Footer() {
           {/* Column 1 */}
           <div className="flex flex-col gap-4">
             <h4 className="text-[11px] font-bold uppercase tracking-[0.22em] text-foreground pb-2 border-b border-border/40 inline-block w-fit">
-              Boutiques & Services
+              Categories
             </h4>
             <ul className="flex flex-col gap-2.5">
               {BOUTIQUE_SERVICES.map((link) => (
@@ -120,7 +120,7 @@ export function Footer() {
           {/* Column 2 */}
           <div className="flex flex-col gap-4">
             <h4 className="text-[11px] font-bold uppercase tracking-[0.22em] text-foreground pb-2 border-b border-border/40 inline-block w-fit">
-              Customer Care
+              Customer
             </h4>
             <ul className="flex flex-col gap-2.5">
               {CUSTOMER_CARE.map((link) => (
@@ -139,7 +139,7 @@ export function Footer() {
           {/* Column 3 */}
           <div className="flex flex-col gap-4">
             <h4 className="text-[11px] font-bold uppercase tracking-[0.22em] text-foreground pb-2 border-b border-border/40 inline-block w-fit">
-              Maison Portal
+              Seller
             </h4>
             <ul className="flex flex-col gap-2.5">
               {MAISON_PARTNERS.map((link) => (
@@ -158,16 +158,16 @@ export function Footer() {
           {/* Column 4: Contact & Secure Settlement */}
           <div className="flex flex-col gap-4">
             <h4 className="text-[11px] font-bold uppercase tracking-[0.22em] text-foreground pb-2 border-b border-border/40 inline-block w-fit">
-              Concierge Location
+              Location
             </h4>
             <div className="flex flex-col gap-2 text-xs text-muted-foreground">
               <span>19501 Biscayne Blvd</span>
               <span>Aventura, FL 33180</span>
               <Link href="mailto:concierge@aventuramall.com" className="hover:text-foreground transition-colors mt-1 font-medium text-foreground">
-                concierge@aventuramall.com
+                contact@aventuramallstore.com
               </Link>
             </div>
-            <div className="mt-2">
+            {/* <div className="mt-2">
               <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold block mb-2">
                 Certified Settlement
               </span>
@@ -187,13 +187,13 @@ export function Footer() {
                   </div>
                 ))}
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between text-xs text-muted-foreground gap-4">
-          <p>© {new Date().getFullYear()} Aventura Mall Miami. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Aventura Mall Store. All rights reserved.</p>
           <div className="flex items-center gap-6 text-[11px] uppercase tracking-wider">
             <Link href="/terms" className="hover:text-foreground transition-colors">
               Privacy

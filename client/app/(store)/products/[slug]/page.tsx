@@ -11,15 +11,19 @@ interface ProductWithCategory extends Product {
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export default async function ProductPage({ params }: ProductPageProps) {
+export default async function ProductPage({ params, searchParams }: ProductPageProps) {
   const { slug } = await params;
+  const searchParamsObj = await searchParams;
+  const storeQuery = typeof searchParamsObj.store === 'string' ? searchParamsObj.store : undefined;
 
   let product: ProductWithCategory | null = null;
   let relatedProducts: ProductWithCategory[] = [];
   try {
-    const res = await apiClient.get<{ data: ProductWithCategory }>(`/api/products/${slug}`);
+    const endpoint = storeQuery ? `/api/products/${slug}?store=${encodeURIComponent(storeQuery)}` : `/api/products/${slug}`;
+    const res = await apiClient.get<{ data: ProductWithCategory }>(endpoint);
     product = res.data;
   } catch (error) {
     console.error('Failed to fetch product:', error);

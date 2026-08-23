@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Clock, User } from 'lucide-react';
 
 export const metadata = {
-  title: 'Blogs - Galleria Mall Store',
+  title: 'Blogs - Aventura Mall Store',
   description: 'Read our latest articles on fashion, tech, and lifestyle.',
 };
 

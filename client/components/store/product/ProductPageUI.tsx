@@ -73,10 +73,8 @@ export function ProductPageUI({
   const [submittingReview, setSubmittingReview] = useState(false);
 
   useEffect(() => {
-    if (activeTab === 'reviews') {
-      fetchReviews();
-    }
-  }, [activeTab, product.id]);
+    fetchReviews();
+  }, [product.id]);
 
   const fetchReviews = async () => {
     try {
@@ -137,7 +135,13 @@ export function ProductPageUI({
   const roundedRating = Math.round(averageRating);
   const relatedProductList = relatedProducts ?? [];
   const hasRelatedProducts = relatedProductList.length > 0;
-  const storeSlug = product.soldBy ? slugifyStoreName(product.soldBy) : '';
+  const isSpecificSeller = Boolean(
+    product.soldBy &&
+      product.soldBy.trim().toLowerCase() !== 'storehouse' &&
+      product.soldBy.trim().toLowerCase() !== 'all royal collection'
+  );
+  const sellerDisplayName = isSpecificSeller ? product.soldBy!.trim() : 'Storehouse';
+  const storeSlug = isSpecificSeller ? slugifyStoreName(sellerDisplayName) : '';
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
@@ -187,7 +191,7 @@ export function ProductPageUI({
                 ? `${averageRating.toFixed(1)} (${reviewCount} reviews)`
                 : 'No reviews yet'}
               <span className="mx-2 text-border">|</span>
-              Estimate Shipping Time: <span className="text-foreground font-medium">2 Days</span>
+              Est. Shipping Time: <span className="text-foreground font-medium">2 Days</span>
             </span>
           </div>
 
@@ -295,12 +299,12 @@ export function ProductPageUI({
                     30 Days Cash Back Guarantee
                   </span>
                 </div>
-                <button
+                {/* <button
                   className="cursor-pointer text-brand text-sm sm:ml-4 hover:underline"
                   onClick={() => router.push('/return-policy')}
                 >
                   View Policy
-                </button>
+                </button> */}
               </div>
             </div>
 
@@ -327,7 +331,7 @@ export function ProductPageUI({
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-xs text-muted-foreground mb-1">Sold by</p>
-                <h3 className="font-bold text-base">{product.soldBy || 'All Royal Collection'}</h3>
+                <h3 className="font-bold text-base">{sellerDisplayName}</h3>
               </div>
               <div className="w-8 h-8 rounded-full bg-[#ffb900] flex items-center justify-center text-white text-xs">
                 <Star className="w-5 h-5 fill-white" />

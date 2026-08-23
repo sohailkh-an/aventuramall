@@ -11,10 +11,10 @@ export const DEFAULT_CURRENCY: SupportedCurrency = 'USD';
 
 export const CURRENCIES: CurrencyConfig[] = [
   { code: 'USD', label: 'U.S. Dollar', locale: 'en-US', rate: 1 },
-  { code: 'INR', label: 'Indian Rupee', locale: 'en-IN', rate: 83.5 },
+  // { code: 'INR', label: 'Indian Rupee', locale: 'en-IN', rate: 83.5 },
   { code: 'EUR', label: 'Euro', locale: 'de-DE', rate: 0.92 },
   { code: 'CAD', label: 'Canadian Dollar', locale: 'en-CA', rate: 1.37 },
-  { code: 'PKR', label: 'Pakistani Rupee', locale: 'en-PK', rate: 278 },
+  // { code: 'PKR', label: 'Pakistani Rupee', locale: 'en-PK', rate: 278 },
 ];
 
 const currencyMap = new Map(CURRENCIES.map((currency) => [currency.code, currency]));

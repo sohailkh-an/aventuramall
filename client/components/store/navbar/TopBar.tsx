@@ -27,20 +27,10 @@ export function TopBar() {
   };
 
   return (
-    <div className="bg-muted/60 text-muted-foreground border-b border-border/50 text-[11px] font-medium tracking-wide">
-      <div className="container mx-auto px-4 py-1.5 flex justify-between items-center">
-        {/* Left Side: Editorial Banner Note */}
+    <div className="bg-muted/60 text-muted-foreground border-b border-border/50 text-[11px] font-medium tracking-wide transition-all duration-300 ease-in-out origin-top overflow-hidden group-[.is-scrolled]:max-h-0 group-[.is-scrolled]:border-transparent group-[.is-scrolled]:opacity-0 max-h-[100px]">
+      <div className="container mx-auto px-4 py-1.5 flex justify-between items-center transition-all duration-300 group-[.is-scrolled]:py-0 group-[.is-scrolled]:scale-y-0">
+        {/* Left Side: Currency */}
         <div className="flex items-center gap-4">
-          <span className="hidden sm:inline-block tracking-widest uppercase font-semibold text-foreground/80">
-            COMPLIMENTARY CONCIERGE & EXPRESS SHIPPING
-          </span>
-          <span className="sm:hidden tracking-wider uppercase font-semibold text-foreground/80">
-            AVENTURA MALL MIAMI
-          </span>
-        </div>
-
-        {/* Right Side: Currency & Auth */}
-        <div className="flex items-center gap-4 sm:gap-6">
           <DropdownMenu>
             <DropdownMenuTrigger
               render={
@@ -67,8 +57,11 @@ export function TopBar() {
               </DropdownMenuRadioGroup>
             </DropdownMenuContent>
           </DropdownMenu>
+        </div>
 
-          <div className="w-px h-3 bg-border" />
+        {/* Right Side: Auth */}
+        <div className="flex items-center gap-4 sm:gap-6">
+
 
           {/* Auth links */}
           {isPending ? (

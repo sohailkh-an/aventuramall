@@ -19,14 +19,13 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "Aventura Mall | Luxury Redefined",
-  description: "The Premier Luxury Shopping Destination — Fashion, Dining, Arts & Culture",
+  description: "The Premier Shopping Destination — Fashion, Dining, Arts & Culture",
   icons: {
     icon: [
-      { url: "/favicon.ico?v=2" },
-      { url: "/favicon.ico?v=2", type: "image/x-icon" },
+      { url: "/logo.svg", type: "image/svg+xml" },
     ],
-    shortcut: ["/favicon.ico?v=2"],
-    apple: ["/favicon.ico?v=2"],
+    shortcut: ["/logo.svg"],
+    apple: ["/logo.svg"],
   },
 };
 
@@ -38,7 +37,6 @@ import { AuthProvider } from "@/lib/auth-client";
 import { SellerAuthProvider } from "@/lib/seller-auth-client";
 import { Toaster } from "sonner";
 import { QueryProvider } from "@/components/providers/QueryProvider";
-import { ThemeSwitcher } from "@/components/ui/ThemeSwitcher";
 
 export default function RootLayout({
   children,
@@ -49,19 +47,10 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${outfit.variable} ${inter.variable} ${playfair.variable} h-full antialiased`}
+      data-theme="atelier-warm"
       suppressHydrationWarning
     >
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                const theme = localStorage.getItem('am_theme_preset') || 'aventura-editorial';
-                document.documentElement.setAttribute('data-theme', theme);
-              } catch (e) {}
-            `,
-          }}
-        />
       </head>
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground transition-colors duration-200">
         <QueryProvider>
@@ -72,7 +61,6 @@ export default function RootLayout({
                   <CompareProvider>
                     <CartProvider>
                       {children}
-                      <ThemeSwitcher />
                       <Toaster position="bottom-right" />
                     </CartProvider>
                   </CompareProvider>

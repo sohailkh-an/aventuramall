@@ -22,9 +22,8 @@ export default fp(async function corsPlugin(fastify: FastifyInstance) {
         "https://www.tiktakshopstore.com",
         "https://www.ttshopstores.com",
         "https://ttshopstores.com",
-        "https://galleriamallstore.com",
-        "https://www.galleriamallstore.com",
-
+        "https://Aventuramallstore.com",
+        "https://www.Aventuramallstore.com",
 
         process.env.FRONTEND_URL,
       ].filter(Boolean);

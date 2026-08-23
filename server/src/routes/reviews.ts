@@ -10,13 +10,31 @@ export default async function reviewRoutes(fastify: FastifyInstance) {
     const { page, limit } = reviewQuerySchema.parse(request.query);
     const skip = (page - 1) * limit;
 
-    // Find the seller products for this global product
-    const sellerProducts = await prisma.sellerProduct.findMany({
-      where: { sourceProductId: productId },
-      select: { id: true }
+    let sellerProductIds: string[] = [];
+
+    // Check if productId is actually a SellerProduct ID
+    const isSellerProduct = await prisma.sellerProduct.findUnique({
+      where: { id: productId },
+      select: { id: true, sourceProductId: true }
     });
-    
-    const sellerProductIds = sellerProducts.map(sp => sp.id);
+
+    if (isSellerProduct) {
+      // If it's a SellerProduct, we could just fetch reviews for this specific seller's product.
+      // But the previous behavior was to aggregate all reviews for the source product.
+      // We will maintain the aggregate behavior for consistency.
+      const sellerProducts = await prisma.sellerProduct.findMany({
+        where: { sourceProductId: isSellerProduct.sourceProductId },
+        select: { id: true }
+      });
+      sellerProductIds = sellerProducts.map(sp => sp.id);
+    } else {
+      // Find the seller products for this global product
+      const sellerProducts = await prisma.sellerProduct.findMany({
+        where: { sourceProductId: productId },
+        select: { id: true }
+      });
+      sellerProductIds = sellerProducts.map(sp => sp.id);
+    }
 
     const [reviews, total] = await Promise.all([
       prisma.review.findMany({
@@ -53,9 +71,15 @@ export default async function reviewRoutes(fastify: FastifyInstance) {
       // Find a seller product for this global product
       // We'll just attach it to the first seller product we find for simplicity,
       // or if they bought it, we could look up the order. But since anyone logged in can review:
-      const sellerProduct = await prisma.sellerProduct.findFirst({
-        where: { sourceProductId: body.productId },
+      let sellerProduct = await prisma.sellerProduct.findUnique({
+        where: { id: body.productId },
       });
+
+      if (!sellerProduct) {
+        sellerProduct = await prisma.sellerProduct.findFirst({
+          where: { sourceProductId: body.productId },
+        });
+      }
 
       if (!sellerProduct) {
         return reply.status(404).send({ error: 'This product is not currently sold by any seller.' });

@@ -22,13 +22,26 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
   const { data: session, isPending: sessionPending } = useSession();
   const isAuthenticated = Boolean(session?.user);
 
+  const sanitizeProduct = (product: any): Product => {
+    let images = product.images || [];
+    if (typeof images === 'string') {
+      try {
+        images = JSON.parse(images);
+      } catch {
+        images = [images];
+      }
+    }
+    return { ...product, images };
+  };
+
   const loadSavedWishlistItems = (): Product[] => {
     if (typeof window === 'undefined') return [];
     const savedWishlist = localStorage.getItem('wishlist-items');
     if (!savedWishlist) return [];
 
     try {
-      return JSON.parse(savedWishlist);
+      const parsed = JSON.parse(savedWishlist);
+      return Array.isArray(parsed) ? parsed.map(sanitizeProduct) : [];
     } catch (error) {
       console.error('Failed to parse wishlist items from localStorage', error);
       return [];
@@ -37,7 +50,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
 
   const fetchRemoteWishlistItems = async (): Promise<Product[]> => {
     const res: any = await apiClient.get('/api/wishlist');
-    return res.data.map((item: any) => item.product);
+    return res.data.map((item: any) => sanitizeProduct(item.product));
   };
 
   const synchronizeWishlistItems = async (localItems: Product[]) => {
