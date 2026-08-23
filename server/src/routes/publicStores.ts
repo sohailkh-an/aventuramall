@@ -132,7 +132,9 @@ export function buildPublicStoreSearchResults<T extends PublicStoreProductLike>(
 export default async function publicStoreRoutes(fastify: FastifyInstance) {
   fastify.get('/api/stores', async (request, reply) => {
     const { search, limit } = storeSearchQuerySchema.parse(request.query);
+    const normalizedSearch = search.trim().toLowerCase();
 
+    // 1. Fetch products to get scraped stores
     const products = await prisma.product.findMany({
       where: {
         isActive: true,
@@ -141,16 +143,107 @@ export default async function publicStoreRoutes(fastify: FastifyInstance) {
       include: { category: true },
       orderBy: { createdAt: 'desc' },
     });
+    
+    let storeSummaries = buildPublicStoreSearchResults(products, search, limit);
+
+    // 2. Fetch real sellers
+    const realSellers = await prisma.seller.findMany({
+      where: search ? {
+        shopName: { contains: search, mode: 'insensitive' }
+      } : undefined,
+      take: limit,
+      include: {
+        sellerProducts: {
+          where: { isActive: true },
+          include: { category: true, reviews: { select: { rating: true } } }
+        }
+      }
+    });
+
+    const realStoreSummaries = realSellers.map(seller => {
+      const slug = slugifyStoreName(seller.shopName);
+      return {
+        name: seller.shopName,
+        slug,
+        productCount: seller.sellerProducts.length,
+        ratingStats: calculateStoreRatingStats(seller.sellerProducts as any),
+        categories: [
+          ...new Set(
+            seller.sellerProducts
+              .map((product) => product.category?.name)
+              .filter((name): name is string => Boolean(name))
+          ),
+        ].sort((a, b) => a.localeCompare(b)),
+      };
+    });
+
+    // Merge them, prioritizing real sellers over scraped stores with the same slug
+    const merged = new Map<string, typeof storeSummaries[0]>();
+    for (const store of storeSummaries) {
+      merged.set(store.slug, store);
+    }
+    for (const store of realStoreSummaries) {
+      merged.set(store.slug, store);
+    }
 
     return reply.send({
-      data: buildPublicStoreSearchResults(products, search, limit),
+      data: [...merged.values()]
+        .filter(store => !normalizedSearch || store.name.toLowerCase().includes(normalizedSearch) || store.slug.includes(normalizedSearch))
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .slice(0, limit),
     });
   });
 
   fastify.get('/api/stores/:storeSlug', async (request, reply) => {
     const { storeSlug } = request.params as { storeSlug: string };
     const { page, limit } = storeProductsQuerySchema.parse(request.query);
+    const skip = (page - 1) * limit;
 
+    // First try real sellers
+    const allSellers = await prisma.seller.findMany();
+    const realSeller = allSellers.find(s => slugifyStoreName(s.shopName) === storeSlug);
+
+    if (realSeller) {
+      const [sellerProducts, total] = await Promise.all([
+        prisma.sellerProduct.findMany({
+          where: { sellerId: realSeller.id, isActive: true },
+          include: { category: true, reviews: { select: { rating: true } } },
+          skip,
+          take: limit,
+          orderBy: { createdAt: 'desc' },
+        }),
+        prisma.sellerProduct.count({ where: { sellerId: realSeller.id, isActive: true } }),
+      ]);
+
+      const store = {
+        name: realSeller.shopName,
+        slug: storeSlug,
+        productCount: total,
+        ratingStats: calculateStoreRatingStats(sellerProducts as any),
+        categories: [
+          ...new Set(
+            sellerProducts
+              .map((product) => product.category?.name)
+              .filter((name): name is string => Boolean(name))
+          ),
+        ].sort((a, b) => a.localeCompare(b)),
+      };
+
+      return reply.send({
+        data: {
+          store,
+          products: sellerProducts,
+        },
+        meta: {
+          page,
+          limit,
+          total,
+          totalPages: Math.ceil(total / limit),
+        },
+      });
+    }
+
+    // Fallback to scraped stores
     const products = await prisma.product.findMany({
       where: {
         isActive: true,
@@ -167,7 +260,6 @@ export default async function publicStoreRoutes(fastify: FastifyInstance) {
       return reply.status(404).send({ error: 'Store not found' });
     }
 
-    const skip = (page - 1) * limit;
     const paginatedProducts = matchingProducts.slice(skip, skip + limit);
 
     return reply.send({
