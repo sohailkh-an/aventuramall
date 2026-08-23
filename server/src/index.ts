@@ -25,7 +25,7 @@ import adminSellerWalletWithdrawalsRoutes from './routes/adminSellerWalletWithdr
 import wishlistRoutes from './routes/wishlist.js';
 import compareRoutes from './routes/compare.js';
 import cartRoutes from './routes/cart.js';
-
+import reviewRoutes from './routes/reviews.js';
 const fastify = Fastify({
   bodyLimit: 52428800, // 50MB
   routerOptions: {
@@ -68,7 +68,7 @@ await fastify.register(adminSellerWalletWithdrawalsRoutes);
 await fastify.register(wishlistRoutes);
 await fastify.register(compareRoutes);
 await fastify.register(cartRoutes);
-
+await fastify.register(reviewRoutes);
 fastify.get('/health', async () => {
   return { status: 'ok', timestamp: new Date().toISOString() };
 });

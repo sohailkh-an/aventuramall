@@ -48,3 +48,5 @@ export const createProductSchema = z.object({
 });
 
 export const updateProductSchema = createProductSchema.partial();
+
+export * from './api/reviews.js';

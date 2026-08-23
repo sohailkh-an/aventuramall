@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { apiClient } from '@/lib/api';
 import { Product, Category } from '@aventuramall/shared';
 import { Button, buttonVariants } from '@/components/ui/button';
 import {
@@ -62,6 +63,57 @@ export function ProductPageUI({
   const { addToCart } = useCart();
   const { formatPrice } = useCurrency();
 
+  const [fetchedReviews, setFetchedReviews] = useState<any[]>([]);
+  const [reviewsLoading, setReviewsLoading] = useState(false);
+  const [reviewCountState, setReviewCountState] = useState(0);
+
+  // Review Form state
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState('');
+  const [submittingReview, setSubmittingReview] = useState(false);
+
+  useEffect(() => {
+    if (activeTab === 'reviews') {
+      fetchReviews();
+    }
+  }, [activeTab, product.id]);
+
+  const fetchReviews = async () => {
+    try {
+      setReviewsLoading(true);
+      const res: any = await apiClient.get(`/api/products/${product.id}/reviews`);
+      setFetchedReviews(res.data);
+      setReviewCountState(res.meta?.total || 0);
+    } catch (error) {
+      console.error('Failed to fetch reviews', error);
+    } finally {
+      setReviewsLoading(false);
+    }
+  };
+
+  const submitReview = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!session) {
+      router.push('/login');
+      return;
+    }
+    try {
+      setSubmittingReview(true);
+      await apiClient.post('/api/reviews', {
+        productId: product.id,
+        rating,
+        comment
+      });
+      setComment('');
+      setRating(5);
+      fetchReviews();
+    } catch (error: any) {
+      console.error('Failed to submit review', error);
+      alert(error.response?.data?.error || 'Failed to submit review');
+    } finally {
+      setSubmittingReview(false);
+    }
+  };
   const handleAuthRequiredAction = (action: () => void) => {
     if (!session) {
       router.push('/login');
@@ -78,8 +130,8 @@ export function ProductPageUI({
   const price = Number(product.price);
   const compareAtPrice = product.compareAtPrice ? Number(product.compareAtPrice) : null;
   const totalPrice = price * quantity;
-  const reviews = product.reviews ?? [];
-  const reviewCount = reviews.length;
+  const reviews = fetchedReviews.length > 0 ? fetchedReviews : (product.reviews ?? []);
+  const reviewCount = reviewCountState > 0 ? reviewCountState : (product.reviews?.length ?? 0);
   const averageRating =
     reviewCount > 0 ? reviews.reduce((total, review) => total + review.rating, 0) / reviewCount : 0;
   const roundedRating = Math.round(averageRating);
@@ -425,7 +477,7 @@ export function ProductPageUI({
                               {review.title || 'Customer review'}
                             </h4>
                             <p className="text-sm text-muted-foreground">
-                              {review.authorName || 'Verified customer'}
+                              {review.user?.name || review.authorName || 'Verified customer'}
                             </p>
                           </div>
                           <div className="flex items-center gap-1">
@@ -446,6 +498,57 @@ export function ProductPageUI({
                     ))}
                   </div>
                 )}
+
+                {/* Write Review Form */}
+                <div className="mt-10 border-t border-border/50 pt-8">
+                  <h3 className="text-xl font-bold mb-6">Write a Review</h3>
+                  {session ? (
+                    <form onSubmit={submitReview} className="space-y-4 max-w-2xl">
+                      <div>
+                        <label className="block text-sm font-medium text-foreground mb-2">Rating</label>
+                        <div className="flex items-center gap-2">
+                          {[1, 2, 3, 4, 5].map((s) => (
+                            <button
+                              key={s}
+                              type="button"
+                              onClick={() => setRating(s)}
+                              className="focus:outline-none"
+                            >
+                              <Star
+                                className={`h-8 w-8 ${s <= rating ? 'fill-[#ffb900] text-[#ffb900]' : 'fill-muted text-muted'} hover:fill-[#ffb900] hover:text-[#ffb900] transition-colors`}
+                              />
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <div>
+                        <label htmlFor="comment" className="block text-sm font-medium text-foreground mb-2">Your Review (optional)</label>
+                        <textarea
+                          id="comment"
+                          rows={4}
+                          className="w-full rounded-md border border-border/70 bg-background p-3 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
+                          placeholder="What did you like or dislike?"
+                          value={comment}
+                          onChange={(e) => setComment(e.target.value)}
+                        />
+                      </div>
+                      <Button
+                        type="submit"
+                        disabled={submittingReview}
+                        className="bg-brand text-white hover:bg-brand/90"
+                      >
+                        {submittingReview ? 'Submitting...' : 'Submit Review'}
+                      </Button>
+                    </form>
+                  ) : (
+                    <div className="rounded-md border border-border/70 bg-muted/10 p-6 text-center">
+                      <p className="text-muted-foreground mb-4">You must be logged in to write a review.</p>
+                      <Button onClick={() => router.push('/login')} className="bg-brand text-white hover:bg-brand/90">
+                        Login to Review
+                      </Button>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
           </div>
