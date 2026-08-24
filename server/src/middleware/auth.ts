@@ -1,5 +1,6 @@
 import { verifyToken, validateSession } from '../lib/auth.js';
 import { FastifyRequest, FastifyReply } from 'fastify';
+import { prisma } from '../db/client.js';
 
 /**
  * Authentication middleware that validates the JWT token.
@@ -59,6 +60,15 @@ export async function requireSellerAuth(request: FastifyRequest, reply: FastifyR
 
     if (!payload || payload.role !== 'SELLER') {
       return reply.status(401).send({ error: 'Unauthorized - Invalid or expired token' });
+    }
+
+    // Verify the seller is not banned/suspended
+    const seller = await prisma.seller.findUnique({
+      where: { id: payload.userId }
+    });
+
+    if (!seller || seller.status === 'SUSPENDED') {
+      return reply.status(401).send({ error: 'Unauthorized - Account suspended or not found' });
     }
 
     // Attach seller data to the request
